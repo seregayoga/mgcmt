@@ -8,11 +8,11 @@ import (
 )
 
 func main() {
-	branchRaw, err := exec.Command("git", "rev-parse", "--abbrev-ref", "HEAD").Output()
+	branch, err := exec.Command("git", "rev-parse", "--abbrev-ref", "HEAD").Output()
 	if err != nil {
 		log.Fatal(err)
 	}
-	separatedBranch := strings.Split(string(branchRaw), "-")
+	separatedBranch := strings.Split(string(branch), "-")
 
 	taskName := strings.Join(separatedBranch[:2], "-")
 	comment := strings.Join(separatedBranch[2:], " ")
