@@ -1,5 +1,6 @@
 # mgcmt
-Magic commit utility for JIRA-like commit naming
+Magic commit utility for JIRA-like commit naming.
+
 Suppose you're working on task with JIRA name MYPRJCT-1234 and want to create fast commit based on your branch name.
 Great, with this utility it's pretty straightforward.
 # Installation
