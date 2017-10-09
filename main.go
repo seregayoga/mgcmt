@@ -1,9 +1,11 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os/exec"
+	"regexp"
 	"strings"
 )
 
@@ -12,16 +14,24 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	separatedBranch := strings.Split(string(branch), "-")
 
-	taskName := strings.Join(separatedBranch[:2], "-")
-	comment := strings.Join(separatedBranch[2:], " ")
-	comment = strings.TrimSpace(comment)
-
-	commitMessage := fmt.Sprintf("%s %s", taskName, comment)
+	commitMessage, err := parseBranchName(branch)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	err = exec.Command("git", "commit", "-m", commitMessage).Run()
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+func parseBranchName(branch []byte) (task string, err error) {
+	r, _ := regexp.Compile("^([A-Za-z]+)-([0-9]+)-(.*)$")
+	m := r.FindStringSubmatch(string(branch))
+	if len(m) != 4 {
+		return "", errors.New("Incorrect branch name, must starts with XXX-000-etc")
+	}
+
+	return fmt.Sprintf("%s-%s %s", m[1], m[2], strings.Replace(m[3], "-", " ", -1)), nil
 }
