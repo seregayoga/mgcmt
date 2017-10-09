@@ -26,7 +26,7 @@ func main() {
 	}
 }
 
-func parseBranchName(branch []byte) (task string, err error) {
+func parseBranchName(branch []byte) (string, error) {
 	r, _ := regexp.Compile("^([A-Za-z]+)-([0-9]+)-(.*)$")
 	m := r.FindStringSubmatch(string(branch))
 	if len(m) != 4 {
