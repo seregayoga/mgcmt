@@ -15,7 +15,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	commitMessage, err := parseBranchName(branch)
+	commitMessage, err := parseBranchName(string(branch))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -26,9 +26,10 @@ func main() {
 	}
 }
 
-func parseBranchName(branch []byte) (string, error) {
+func parseBranchName(branch string) (string, error) {
+	branch = strings.TrimSpace(branch)
 	r, _ := regexp.Compile("^([A-Za-z]+)-([0-9]+)-(.*)$")
-	m := r.FindStringSubmatch(string(branch))
+	m := r.FindStringSubmatch(branch)
 	if len(m) != 4 {
 		return "", errors.New("Incorrect branch name, must starts with XXX-000-etc")
 	}
