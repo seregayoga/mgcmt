@@ -28,10 +28,10 @@ func main() {
 
 func parseBranchName(branch string) (string, error) {
 	branch = strings.TrimSpace(branch)
-	r, _ := regexp.Compile("^([A-Za-z]+)-([0-9]+)-(.*)$")
+	r, _ := regexp.Compile("([A-Za-z]+)-([0-9]+)-(.*)$")
 	m := r.FindStringSubmatch(branch)
 	if len(m) != 4 {
-		return "", errors.New("Incorrect branch name, must starts with XXX-000-etc")
+		return "", errors.New("Incorrect branch name, must contains XXX-000-etc")
 	}
 
 	return fmt.Sprintf("%s-%s %s", m[1], m[2], strings.Replace(m[3], "-", " ", -1)), nil
